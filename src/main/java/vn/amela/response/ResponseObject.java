@@ -1,5 +1,22 @@
 package vn.amela.response;
 
+/*
+{
+    data:{
+        ...
+    }
+    status:{
+        code:
+        message:
+    }
+}
+*/
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
 public class ResponseObject {
 
     private Object data;

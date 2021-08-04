@@ -6,5 +6,5 @@ import vn.amela.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findByUsername(String username);
+    User getByUsername(String username);
 }

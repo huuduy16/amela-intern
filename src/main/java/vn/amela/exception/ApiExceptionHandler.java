@@ -13,14 +13,14 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleAllEdxception(Exception exception, WebRequest request) {
-        Status status = new Status("1000", exception.getLocalizedMessage());
+        Status status = new Status("100", exception.getLocalizedMessage());
         ResponseObject responseObject = new ResponseObject(null, status);
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
 
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<?> handleNullPointerEdxception(Exception exception, WebRequest request) {
-        Status status = new Status("1001", exception.getLocalizedMessage());
+        Status status = new Status("101", exception.getLocalizedMessage());
         ResponseObject responseObject = new ResponseObject(null, status);
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }

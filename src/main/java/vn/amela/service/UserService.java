@@ -19,20 +19,24 @@ public class UserService implements UserDetailsService {
         this.userRepository = userRepo;
     }
 
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
-
     public void createUser(User user) {
         userRepository.save(user);
     }
 
-    public List<User> findAllUsers() {
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
+    public User getUserByUsername(String username) {
+        return userRepository.getByUsername(username);
+    }
+
+    public User getUserById(Long id) {
+        return userRepository.getById(id);
+    }
+
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByUsername(username);
+        User user = userRepository.getByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
@@ -40,11 +44,18 @@ public class UserService implements UserDetailsService {
     }
 
     public UserDetails loadUserById(String id) {
-        Optional object = userRepository.findById(Long.valueOf(id));
-        if (!object.isPresent()) {
+        Optional<User> object = userRepository.findById(Long.valueOf(id));
+        if (object.isEmpty()) {
             return null;
         }
-        CustomUserDetails userDetails = new CustomUserDetails((User) object.get());
-        return userDetails;
+        return new CustomUserDetails(object.get());
+    }
+
+    public void deleteUser(Long id){
+        userRepository.deleteById(id);
+    }
+
+    public void updateUser(Long id){
+        userRepository.getById(id);
     }
 }
