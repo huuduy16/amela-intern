@@ -15,7 +15,6 @@ import vn.amela.response.Status;
 import vn.amela.service.UserService;
 
 @RestController
-@RequestMapping("admin")
 public class AdminController {
 
     private final UserService userService;
@@ -33,7 +32,7 @@ public class AdminController {
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/create-user", method = RequestMethod.POST)
     public ResponseEntity<?> createUser(@RequestBody User user) {
         ResponseObject responseObject = new ResponseObject();
         responseObject.setData(user);
@@ -56,6 +55,7 @@ public class AdminController {
         }
 
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+
         userService.createUser(user);
         responseObject.setStatus(new Status("000", "Truy van thanh cong"));
         return new ResponseEntity<>(responseObject, HttpStatus.OK);

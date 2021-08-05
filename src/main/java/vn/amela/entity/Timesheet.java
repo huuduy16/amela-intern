@@ -23,6 +23,9 @@ public class Timesheet {
     @Column(name = "plan")
     private String plan;
 
+    @Column(name = "approved")
+    private boolean approved;
+
     @Transient
     private List<Task> tasks;
 }

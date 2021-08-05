@@ -1,6 +1,6 @@
 package vn.amela.entity;
 
-import java.util.List;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,10 +32,7 @@ public class User {
     private String description;
 
     @Transient
-    private User leader;
-
-    @Transient
-    private List<User> notifiedUsers;
+    private Set<String> roles;
 
     public boolean isValidEmail() {
         return true;
