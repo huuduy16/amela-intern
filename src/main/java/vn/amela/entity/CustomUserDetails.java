@@ -1,38 +1,31 @@
 package vn.amela.entity;
 
 import java.util.Collection;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+@Data
 public class CustomUserDetails implements UserDetails {
 
-    private final Admin admin;
-    private final User user;
+    private final Account account;
     private Collection roles;
 
-    public CustomUserDetails(User user) {
-        this.user = user;
-        this.roles.addAll(user.getRoles());
-        admin = null;
+    public CustomUserDetails(Account account) {
+        this.account = account;
+        this.roles.addAll(account.getRoles());
     }
 
-    public CustomUserDetails(Admin admin) {
-        this.admin = admin;
-        this.roles.addAll(admin.getRoles());
-        user = null;
-    }
-
-    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return roles;
     }
 
     public String getPassword() {
-        return user.getPassword();
+        return account.getPassword();
     }
 
     public String getUsername() {
-        return user.getUsername();
+        return account.getUsername();
     }
 
     public boolean isAccountNonExpired() {

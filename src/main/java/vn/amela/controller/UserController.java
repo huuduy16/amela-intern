@@ -1,5 +1,6 @@
 package vn.amela.controller;
 
+import java.security.Principal;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,8 +49,9 @@ public class UserController {
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-    public ResponseEntity<?> updateUser(@PathVariable("id") Long id, @RequestBody User user) {
+    @RequestMapping(value = "/update/", method = RequestMethod.POST)
+    public ResponseEntity<?> updateUser(Principal principal, @RequestBody User user) {
+        
         return null;
     }
 }
