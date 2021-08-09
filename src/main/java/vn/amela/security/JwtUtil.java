@@ -10,7 +10,7 @@ import java.util.Date;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import vn.amela.entity.User;
+import vn.amela.entity.Account;
 
 @Component
 @Slf4j
@@ -22,9 +22,9 @@ public class JwtUtil {
     @Value("${duyphan.jwt.secret}")
     private static String jwtSecret;
 
-    public String genertateToken(User user) {
+    public String genertateToken(Account account) {
         Date now = new Date();
-        return Jwts.builder().setSubject(String.valueOf(user.getId()))
+        return Jwts.builder().setSubject(String.valueOf(account.getId()))
             .setIssuedAt(now)
             .setExpiration(new Date(now.getTime() + jwtExpiration))
             .signWith(SignatureAlgorithm.HS256, jwtSecret)

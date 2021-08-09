@@ -9,6 +9,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicUpdate
 @Data
 public class User extends Account {
+
     @Column(name = "email")
     private String email;
 

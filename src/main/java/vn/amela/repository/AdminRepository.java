@@ -8,4 +8,6 @@ import vn.amela.entity.Admin;
 public interface AdminRepository extends JpaRepository<Admin, Long> {
 
     Admin getByUsername(String username);
+
+    boolean existsByUsername(String username);
 }
