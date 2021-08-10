@@ -53,18 +53,16 @@ public class AdminController {
         return ResponseUtil.getResponseEntity(responseObject);
     }
 
-    @RequestMapping(value = "/user/{user_id}/set-leader/{leader_id}", method = RequestMethod.POST)
-    public ResponseEntity<?> setLeader(@PathVariable("user_id") Long userId,
-        @PathVariable("leader_id") Long leaderId) {
+    @RequestMapping(value = "/set-leader/{leader_id}", method = RequestMethod.POST)
+    public ResponseEntity<?> setLeader(@PathVariable("leader_id") Long leaderId) {
         ResponseObject responseObject = new ResponseObject();
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
             .getAuthentication().getPrincipal();
-
         if (!userDetails.getAuthorities().contains("ROLE_ADMIN")) {
             responseObject.setStatus(new Status("010", "Khong co quyen chinh sua"));
             return ResponseUtil.getResponseEntity(responseObject);
         }
-        if (!userService.isExist(userId)) {
+        if (!userService.isExist(userDetails.getUsername())) {
             responseObject.setStatus(new Status("011", "Tai khoan user khong ton tai"));
             return ResponseUtil.getResponseEntity(responseObject);
         }
@@ -72,23 +70,23 @@ public class AdminController {
             responseObject.setStatus(new Status("012", "Tai khoan leader khong ton tai"));
             return ResponseUtil.getResponseEntity(responseObject);
         }
+        User user = userService.getUserByUsername(userDetails.getUsername());
+        Long userId = user.getId();
         userService.setLeader(userId, leaderId);
         responseObject.setStatus(new Status("000", "Truy van thanh cong"));
         return ResponseUtil.getResponseEntity(responseObject);
     }
 
-    @RequestMapping(value = "/user/{user_id}/set-noti-user/{noti_user_id}", method = RequestMethod.POST)
-    public ResponseEntity<?> setNotiUser(@PathVariable("user_id") Long userId,
-        @PathVariable("noti_user_id") Long notiUserId) {
+    @RequestMapping(value = "/set-notified-user/{noti_user_id}", method = RequestMethod.POST)
+    public ResponseEntity<?> setNotiUser(@PathVariable("noti_user_id") Long notiUserId) {
         ResponseObject responseObject = new ResponseObject();
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
             .getAuthentication().getPrincipal();
-
         if (!userDetails.getAuthorities().contains("ROLE_ADMIN")) {
             responseObject.setStatus(new Status("010", "Khong co quyen chinh sua"));
             return ResponseUtil.getResponseEntity(responseObject);
         }
-        if (!userService.isExist(userId)) {
+        if (!userService.isExist(userDetails.getUsername())) {
             responseObject.setStatus(new Status("011", "Tai khoan user khong ton tai"));
             return ResponseUtil.getResponseEntity(responseObject);
         }
@@ -96,6 +94,8 @@ public class AdminController {
             responseObject.setStatus(new Status("012", "Tai khoan notified user khong ton tai"));
             return ResponseUtil.getResponseEntity(responseObject);
         }
+        User user = userService.getUserByUsername(userDetails.getUsername());
+        Long userId = user.getId();
         userService.setNotifyUser(userId, notiUserId);
         responseObject.setStatus(new Status("000", "Truy van thanh cong"));
         return ResponseUtil.getResponseEntity(responseObject);

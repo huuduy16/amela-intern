@@ -2,26 +2,26 @@ package vn.amela.service;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
-import vn.amela.entity.LeaderAndUser;
-import vn.amela.entity.NotifyUser;
+import vn.amela.entity.Leader;
+import vn.amela.entity.NotifiedUser;
 import vn.amela.entity.User;
-import vn.amela.repository.LeaderUserRepository;
-import vn.amela.repository.NotifyUserRepository;
+import vn.amela.repository.LeaderRepository;
+import vn.amela.repository.NotifiedUserRepository;
 import vn.amela.repository.UserRepository;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
-    private final LeaderUserRepository leaderUserRepository;
-    private final NotifyUserRepository notifyUserRepository;
+    private final LeaderRepository leaderRepository;
+    private final NotifiedUserRepository notifiedUserRepository;
 
     public UserService(UserRepository userRepo,
-        LeaderUserRepository leaderUserRepository,
-        NotifyUserRepository notifyUserRepository) {
+        LeaderRepository leaderRepository,
+        NotifiedUserRepository notifiedUserRepository) {
         this.userRepository = userRepo;
-        this.leaderUserRepository = leaderUserRepository;
-        this.notifyUserRepository = notifyUserRepository;
+        this.leaderRepository = leaderRepository;
+        this.notifiedUserRepository = notifiedUserRepository;
     }
 
     public void createUser(User user) {
@@ -59,15 +59,22 @@ public class UserService {
         return userRepository.existsByUsername(username);
     }
 
+    public void deleteLeaderOfUser(Long userId) {
+        leaderRepository.deleteAllByLeaderId_UserId(userId);
+    }
+
     //both existed
     public void setLeader(Long userId, Long leaderId) {
-        LeaderAndUser leaderAndUser = new LeaderAndUser(leaderId, userId);
-        leaderUserRepository.save(leaderAndUser);
+        deleteLeaderOfUser(userId);
+        Leader leader = new Leader(leaderId, userId);
+        leaderRepository.save(leader);
     }
 
     //both exist
     public void setNotifyUser(Long userId, Long notiUserId) {
-        NotifyUser notifyUser = new NotifyUser(notiUserId, userId);
-        notifyUserRepository.save(notifyUser);
+        NotifiedUser notifiedUser = new NotifiedUser(notiUserId, userId);
+        if (!notifiedUserRepository.existsByNotifyUserId(notifiedUser.getNotifiedUserId())) {
+            notifiedUserRepository.save(notifiedUser);
+        }
     }
 }

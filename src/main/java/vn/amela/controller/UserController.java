@@ -3,14 +3,10 @@ package vn.amela.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import vn.amela.entity.Timesheet;
 import vn.amela.entity.User;
 import vn.amela.response.ResponseObject;
 import vn.amela.response.ResponseUtil;
@@ -59,28 +55,6 @@ public class UserController {
             responseObject.setData(new UserResponseObject(user));
             responseObject.setStatus(new Status("000", "Truy van thanh cong"));
         }
-        return ResponseUtil.getResponseEntity(responseObject);
-    }
-
-    @RequestMapping(value = "/update-info", method = RequestMethod.POST)
-    public ResponseEntity<?> updateUser(@RequestBody User user) {
-        ResponseObject responseObject = new ResponseObject();
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
-            .getAuthentication().getPrincipal();
-        if (userDetails.getUsername().equals(user.getUsername()) || (userDetails.getAuthorities()
-            .contains("ROLE_ADMIN"))) {
-            userService.updateUser(user);
-            responseObject.setStatus(new Status("000", "Truy van thanh cong"));
-        } else {
-            responseObject.setStatus(new Status("010", "Khong co quyen chinh sua"));
-        }
-        return ResponseUtil.getResponseEntity(responseObject);
-    }
-
-    @RequestMapping(value = "/create-timesheet", method = RequestMethod.POST)
-    public ResponseEntity<?> createTimesheet(@RequestBody Timesheet timesheet) {
-        ResponseObject responseObject = new ResponseObject();
-
         return ResponseUtil.getResponseEntity(responseObject);
     }
 }

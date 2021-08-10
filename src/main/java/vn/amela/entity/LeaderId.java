@@ -6,8 +6,8 @@ import lombok.Data;
 
 @Data
 @Embeddable
-public class NotifyUserId implements Serializable {
+public class LeaderId implements Serializable {
 
-    private Long notiUserId;
+    private Long leaderId;
     private Long userId;
 }

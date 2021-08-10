@@ -6,7 +6,6 @@ import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity(name = "user")
-@DynamicUpdate
 @Data
 public class User extends Account {
 
