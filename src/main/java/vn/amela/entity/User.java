@@ -3,7 +3,6 @@ package vn.amela.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import lombok.Data;
-import org.hibernate.annotations.DynamicUpdate;
 
 @Entity(name = "user")
 @Data

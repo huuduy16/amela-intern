@@ -10,7 +10,7 @@ import lombok.Data;
 
 @Entity(name = "timesheet")
 @Data
-public class Timesheet {
+public class Timesh {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

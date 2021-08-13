@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import vn.amela.entity.Timesh;
 import vn.amela.entity.User;
 import vn.amela.response.ResponseObject;
 import vn.amela.response.ResponseUtil;
@@ -56,5 +58,11 @@ public class UserController {
             responseObject.setStatus(new Status("000", "Truy van thanh cong"));
         }
         return ResponseUtil.getResponseEntity(responseObject);
+    }
+
+    @RequestMapping(value = "create-timesheet", method = RequestMethod.POST)
+    public ResponseEntity<?> createTimesheet(@RequestBody Timesh timesh) {
+
+        return null;
     }
 }

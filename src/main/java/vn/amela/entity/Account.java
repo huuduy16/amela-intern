@@ -31,7 +31,6 @@ public class Account {
     private Set<String> roles;
 
 
-
     public Account(Account account) {
         this.id = account.getId();
         this.username = account.getUsername();
