@@ -3,6 +3,8 @@ package vn.amela.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,7 +64,13 @@ public class UserController {
 
     @RequestMapping(value = "create-timesheet", method = RequestMethod.POST)
     public ResponseEntity<?> createTimesheet(@RequestBody Timesh timesh) {
-
-        return null;
+        ResponseObject responseObject = new ResponseObject();
+        responseObject.setData(timesh);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
+            .getAuthentication().getPrincipal();
+        Long userId = userService.getUserByUsername(userDetails.getUsername()).getId();
+        userService.createTimesheet(userId, timesh);
+        responseObject.setStatus(new Status("000", "Truy van thanh cong"));
+        return ResponseUtil.getResponseEntity(responseObject);
     }
 }

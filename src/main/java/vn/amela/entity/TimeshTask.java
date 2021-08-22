@@ -13,8 +13,8 @@ public class TimeshTask {
     @EmbeddedId
     private TimeshTaskId timeshTaskId;
 
-    public TimeshTask(Long taskId, Long timeshId) {
-        this.timeshTaskId.setTaskId(taskId);
+    public TimeshTask(Long timeshId, Long taskId) {
         this.timeshTaskId.setTimeshId(timeshId);
+        this.timeshTaskId.setTaskId(taskId);
     }
 }
