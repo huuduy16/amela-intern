@@ -37,8 +37,8 @@ public class AdminService {
 
     public void updateUser(User newUser) {
         User currentUser = userRepository.getById(newUser.getId());
-        currentUser.setEmail(newUser.getEmail());
         currentUser.setUsername(newUser.getUsername());
+        currentUser.setEmail(newUser.getEmail());
         currentUser.setPassword(newUser.getPassword());
         userRepository.save(currentUser);
     }

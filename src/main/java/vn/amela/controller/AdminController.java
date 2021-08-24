@@ -14,14 +14,17 @@ import vn.amela.response.ResponseObject;
 import vn.amela.response.ResponseUtil;
 import vn.amela.response.Status;
 import vn.amela.response.UserResponseObject;
+import vn.amela.service.AdminService;
 import vn.amela.service.UserService;
 
 @RestController
 public class AdminController {
 
+    private final AdminService adminService;
     private final UserService userService;
 
-    public AdminController(UserService userService) {
+    public AdminController(AdminService adminService, UserService userService) {
+        this.adminService = adminService;
         this.userService = userService;
     }
 
@@ -123,5 +126,19 @@ public class AdminController {
             status = new Status("000", "Truy van thanh cong");
         }
         return ResponseUtil.getResponseEntity(null, status);
+    }
+
+    @RequestMapping(value = "/update-user", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateUser(@RequestBody User newUser) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
+            .getAuthentication().getPrincipal();
+        if (userDetails.getAuthorities().contains("ROLE_ADMIN")) {
+            adminService.updateUser(newUser);
+        } else {
+            User requestUser = userService.getUserByUsername(userDetails.getUsername());
+            if (requestUser.getId().equals(newUser.getId())) {
+                userService.updateUser(newUser);
+            }
+        }
     }
 }
