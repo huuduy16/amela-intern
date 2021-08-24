@@ -56,7 +56,11 @@ public class UserService {
         userRepository.deleteByUsername(username);
     }
 
-    public void updateUser(User user) {
+    public void updateUser(User newUser) {
+        User currentUser = userRepository.getById(newUser.getId());
+        currentUser.setPassword(newUser.getPassword());
+        currentUser.setDescription(newUser.getDescription());
+        userRepository.save(currentUser);
     }
 
     public boolean isExist(Long id) {
