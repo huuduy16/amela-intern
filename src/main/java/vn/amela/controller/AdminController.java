@@ -107,6 +107,12 @@ public class AdminController {
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteUser(@PathVariable("id") Long id) {
         Status status;
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
+            .getAuthentication().getPrincipal();
+        if (!userDetails.getAuthorities().contains("ROLE_ADMIN")) {
+            status = new Status("010", "Khong co quyen xoa");
+            return ResponseUtil.getResponseEntity(null, status);
+        }
         if (!userService.isExist(id)) {
             status = new Status("010", "Tai khoan khong ton tai");
         } else {
@@ -119,6 +125,12 @@ public class AdminController {
     @RequestMapping(value = "/delete/{username}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteUser(@PathVariable("username") String username) {
         Status status;
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
+            .getAuthentication().getPrincipal();
+        if (!userDetails.getAuthorities().contains("ROLE_ADMIN")) {
+            status = new Status("010", "Khong co quyen xoa");
+            return ResponseUtil.getResponseEntity(null, status);
+        }
         if (!userService.isExist(username)) {
             status = new Status("010", "Tai khoan khong ton tai");
         } else {
@@ -130,6 +142,7 @@ public class AdminController {
 
     @RequestMapping(value = "/update-user", method = RequestMethod.PUT)
     public ResponseEntity<?> updateUser(@RequestBody User newUser) {
+        Status status = new Status("000", "Truy van thanh cong");
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
             .getAuthentication().getPrincipal();
         if (userDetails.getAuthorities().contains("ROLE_ADMIN")) {
@@ -138,7 +151,10 @@ public class AdminController {
             User requestUser = userService.getUserByUsername(userDetails.getUsername());
             if (requestUser.getId().equals(newUser.getId())) {
                 userService.updateUser(newUser);
+            } else {
+                status = new Status("010", "Khong co quyen chinh sua");
             }
         }
+        return ResponseUtil.getResponseEntity(null, status);
     }
 }
