@@ -1,15 +1,12 @@
 package vn.amela.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import vn.amela.entity.Account;
-import vn.amela.entity.User;
 import vn.amela.request.LoginRequestObject;
 import vn.amela.response.LoginResponseObject;
 import vn.amela.response.ResponseUtil;
@@ -39,7 +36,7 @@ public class GeneralController {
             if (new BCryptPasswordEncoder().matches(object.getPassword(),
                 account.getPassword())) { //password correct
                 //create and return token
-                loginResponseObject.setToken(jwtUtil.genertateToken(account));
+                loginResponseObject.setToken(jwtUtil.generateToken(account));
                 status = new Status("000", "Dang nhap thanh cong");
             } else { //password incorrect
                 status = new Status("010", "Sai mat khau");

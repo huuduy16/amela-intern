@@ -22,7 +22,7 @@ public class JwtUtil {
     @Value("${duyphan.jwt.secret}")
     private static String jwtSecret;
 
-    public String genertateToken(Account account) {
+    public String generateToken(Account account) {
         Date now = new Date();
         return Jwts.builder().setSubject(String.valueOf(account.getId()))
             .setIssuedAt(now)
